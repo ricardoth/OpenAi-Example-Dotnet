@@ -5,7 +5,7 @@ using OpenAI.Chat;
 var endpoint = new Uri("https://openai-service-rtotechlabs.openai.azure.com/");
 var model = "gpt-4o-mini";
 var deploymentName = "gpt-4o-mini-example";
-var apiKey = "Mi key";
+var apiKey = "miclave";
 
 AzureOpenAIClient azureClient = new(
     endpoint,
@@ -13,17 +13,25 @@ AzureOpenAIClient azureClient = new(
 ChatClient chatClient = azureClient.GetChatClient(deploymentName);
 
 
+Console.WriteLine("Bienvenidos al mundo inteligente");
+string mensajeUno = "Hola, soy tu asistente de Azure OpenAI. ¿Cómo puedo ayudarte hoy?";
+Console.WriteLine(mensajeUno);
+
+string receptor = Console.ReadLine();
+
 List<ChatMessage> messages = new List<ChatMessage>()
 {
-    new SystemChatMessage("Tu eres mi asistente."),
-    new UserChatMessage("Qué me puedes decir sobre Azure Logic Apps a un nivel de conocimiento experto, para que se puede usar?"),
+    new SystemChatMessage(mensajeUno),
+    new UserChatMessage(receptor),
 };
 
 var response = chatClient.CompleteChat(messages);
 Console.WriteLine(response.Value.Content[0].Text);
 
 messages.Add(new AssistantChatMessage(response.Value.Content[0].Text));
-messages.Add(new UserChatMessage("Se puede usar para interceptar llamadas desde un Gateway hacia los microservicios? es buena práctica?"));
+Console.WriteLine("Escribe un mensaje para continuar la conversación:");
+string mensajito = Console.ReadLine();
+messages.Add(new UserChatMessage(mensajito));
 
 response = chatClient.CompleteChat(messages);
 Console.WriteLine(response.Value.Content[0].Text); 
